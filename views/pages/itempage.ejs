@@ -1,0 +1,39 @@
+<% include base %>
+<% include ../partials/itemcarousel %>
+<% include ../partials/itemofferform %>
+
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
+
+<script src="https://code.jquery.com/ui/1.11.3/jquery-ui.min.js"></script>
+
+<script type="text/javascript">
+  var itemsOffered = [];
+
+  $( document ).ready(function() {
+    addimage();
+  });
+
+  function addimage() {
+    <% youritem.forEach((item)=>{ %>
+      var img = document.createElement("text");
+      img.src = "http://bricksplayground.webs.com/brick.PNG";
+      img.height = 50;
+      img.width = 100;
+      img.innerHTML = "<%= item.item_name %>";
+      img.draggable = "true";
+      var class_name = "col-lg-6";
+      img.setAttribute("class", class_name);
+      // ondragstart="dragStart(event)" draggable="true" id="dragtarget"
+      img.setAttribute("ondragstart", "dragStart(event)");
+      img.setAttribute("id", "<%= item.item_id %>");
+
+      document.getElementById("myDiagramDiv2").appendChild(img);
+      $(img).draggable();
+  <% }); %>
+  }
+
+
+  }
+</script>
+

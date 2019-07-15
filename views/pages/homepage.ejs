@@ -1,0 +1,45 @@
+<% include base.ejs %>
+<% include ../partials/sendmessagemodal %>
+<div class="row" style="width:98%;">
+    <% items.forEach((item)=>{ %>
+    <div class="col-lg-3 col-md-6 col-sm-12" style="padding-left: 50px; padding-top: 30px;">
+            <div class="card" style="width: 20rem; height: 18rem;">
+                <div class="card-body">
+                    <h5 class="card-title"><%= item.item_name%></h5>
+                    <p class="card-text" style="height: 35%;"><%= item.description.substring(0,100) %>...</p>
+                    <p class="card-text ">Estimated value: £<%= item.est_cost %></p>
+                    <p class="card-text">Posted on <%= (''+item.date_posted).substring(0,16) %> </p>
+                    <p>
+                        <% if(user != undefined){%>
+                        <button type="button" class="popupmodal btn btn-primary btn-sm"><%= item.user_posted %></button>
+                        <a href="/makeoffer/<%= item.item_id %>"><button type="button" class="btn btn-success btn-sm">Make Offer</button></a>
+                        <% }else{ %>
+                        <!--<a href="/login"><button type="button" class="btn btn-primary btn-sm"><%= item.user_posted %></button></a>-->
+                        <button type="button" class="btn btn-primary btn-sm" data-container="body" data-toggle="popover" data-placement="top" data-content="You must be signed in to message the user.">
+                        <%= item.user_posted %>
+                        </button>
+                        <a href="/makeoffer/<%= item.item_id %>"><button type="button" class="btn btn-success btn-sm">Make Offer</button></a>
+                        <% } %>
+                        
+                    </p>
+                </div>
+                
+            </div>
+    </div>
+    <% } );%>
+</div>
+<script>
+$(function () {
+  $('[data-toggle="popover"]').popover()
+})
+
+var elements = document.getElementsByClassName("popupmodal");
+for (var i = 0, len = elements.length; i < len; i++) {
+    elements[i].addEventListener("click", function() {
+        $('#recipient').attr('value', this.innerHTML);
+        var itemName = $(this).parents(".card-body")[0].firstElementChild.innerHTML;
+        $('#title').attr('value', 'I am interested in '+itemName+' ...');
+        $('#sendmessagemodal').modal('show');
+    }, false);
+}
+</script>

@@ -1,0 +1,30 @@
+<% include base %>
+<% include ../partials/sendmessagemodal %>
+<div class="row" style="width:85%; padding-left:15%;">
+    <% privateMessages.forEach((msg)=>{ %>
+    <div class="card col-12 text-right" style="width: 18rem;">
+        <div class="card-body">
+            <h5 class="card-title text-left"><%= msg.title %></h5>
+            <p class="card-text text-left"><big><%= msg.message %></big></p>
+            <div>
+            <h6 class="card-subtitle mb-2 text-muted">From <%= msg.sender %></h6>
+            <button type="button" class="popupmodal btn btn-primary btn-sm">Send reply</button></a>
+            </div>
+        </div>
+    </div>
+    <% });%>
+</div>
+<script>
+var elements = document.getElementsByClassName("popupmodal");
+for (var i = 0, len = elements.length; i < len; i++) {
+    elements[i].addEventListener("click", function() {
+        var rawString = $(this).parents(".card-body")[0].textContent;
+        var recipient = rawString.substring(rawString.lastIndexOf("From") + 4, rawString.lastIndexOf("Send"));
+        recipient = (recipient.split("\n")[0]).split(' ').join('');
+        $('#recipient').attr('value', recipient);
+        var itemName = $(this).parents(".card-body")[0].firstElementChild.innerHTML;
+        $('#title').attr('value', 'RE: '+itemName);
+        $('#sendmessagemodal').modal('show');
+    }, false);
+}
+</script>

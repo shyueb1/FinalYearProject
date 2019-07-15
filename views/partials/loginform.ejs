@@ -1,0 +1,21 @@
+<div class="card">
+<article class="card-body" style="width: 21.5em;margin:0 auto;">
+    <header class="card-header " style="">
+            <a href="../register/" class="float-right btn btn-outline-primary">Sign up</a>
+            <h4 class="card-title mb-4 mt-1">Sign in</h4>
+    </header>
+    <form method="POST">
+        <div class="form-group">
+                <label for="username"><span class="req"></span> Email:  <small></small> </label> 
+                        <input class="form-control" type="text" name="email" id = "txt" onkeyup = "Validate(this)" placeholder="" required />  
+                <div id="errLast"></div>
+        </div>
+        <div class="form-group">
+                <label for="password"><span class="req"> </span> Password: </label>
+                    <input required name="pass" type="password" class="form-control inputpass" minlength="4" maxlength="16"  id="pass1" /> </p>
+        </div>
+
+            <button class="btn btn-success" type="submit">Login</button>
+    </form>
+</article>
+</div> <!-- card.// -->
