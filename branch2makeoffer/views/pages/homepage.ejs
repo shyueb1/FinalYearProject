@@ -1,13 +1,18 @@
 <% include base.ejs %>
 <% include ../partials/sendmessagemodal %>
 <div class="row" style="width:98%;">
+    <% var counter = 0; %>
     <% items.forEach((item)=>{ %>
     <div class="col-lg-3 col-md-6 col-sm-12" style="padding-left: 50px; padding-top: 30px;">
-            <div class="card" style="width: 20rem; height: 18rem;">
+            <div class="card shadow p-3 mb-5 bg-white rounded" style="width: 20rem; height: 22rem;">
                 <div class="card-body">
-                    <h5 class="card-title"><%= item.item_name%></h5>
-                    <p class="card-text" style="height: 35%;"><%= item.description.substring(0,100) %>...</p>
-                    <p class="card-text ">Estimated value: £<%= item.est_cost %></p>
+                    <h5 class="card-title float-left"><%= item.item_name%></h5>
+                    <img style="width:50%; padding-left:30px;" class="card-img-bottom rounded float-right img-fluid" src="https://test123-njs.s3.eu-west-2.amazonaws.com/<%= item.key %>" alt="Responsive image ">
+                    <br>
+                    <br>
+                    <br>
+                    <p class="card-text" style="height: 35%;"><%= item.description.substring(0,50) %>...</p>
+                    <p class="card-text">Estimated value: £<%= item.est_cost %></p>
                     <p class="card-text">Posted on <%= (''+item.date_posted).substring(0,16) %> </p>
                     <p>
                         <% if(user != undefined){%>
@@ -41,5 +46,22 @@ for (var i = 0, len = elements.length; i < len; i++) {
         $('#title').attr('value', 'I am interested in '+itemName+' ...');
         $('#sendmessagemodal').modal('show');
     }, false);
+}
+
+function shadow(element){
+    element.classList.add("shadow");
+    element.classList.add("p-3");
+    element.classList.add("mb-5");
+    element.classList.add("bg-white");
+    element.classList.add("rounded");
+    console.log(element);
+}
+function removeShadow(element){
+    element.classList.remove("shadow");
+    element.classList.remove("p-3");
+    element.classList.remove("mb-5");
+    element.classList.remove("bg-white");
+    element.classList.remove("rounded");
+    console.log(element);
 }
 </script>

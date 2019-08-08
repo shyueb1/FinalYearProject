@@ -32,8 +32,8 @@ module.exports.set = function(app) {
     };
 
     app.get("/yourmessages", (req, res)=>{
-        var user = req.user.rows[0].user_name;
-        DB.query('SELECT * FROM chat where receiver=$1 ORDER BY date_posted desc', [user], (err, result) => {
+        var user = req.user.rows[0];
+        DB.query('SELECT * FROM chat where receiver=$1 ORDER BY date_posted desc', [user.user_name], (err, result) => {
             if(err){
                 console.log(err);
                 req.flash('message', 'Failed to find messages');
@@ -51,8 +51,8 @@ module.exports.set = function(app) {
     });
 
     app.get("/yoursentmessages", (req, res)=>{
-        var user = req.user.rows[0].user_name;
-        DB.query('SELECT * FROM chat where sender=$1 ORDER BY date_posted desc', [user], (err, result) => {
+        var user = req.user.rows[0];
+        DB.query('SELECT * FROM chat where sender=$1 ORDER BY date_posted desc', [user.user_name], (err, result) => {
             if(err){
                 console.log(err);
                 req.flash('message', 'Failed to find messages');

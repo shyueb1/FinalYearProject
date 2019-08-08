@@ -24,3 +24,10 @@ function createInstance() {
     console.log("DB connection created.");
     return DB;
 };
+
+// function Database(){
+//     var DB = getDatabase();
+//     this.query = (query, callback) => { 
+//         return DB.query(query, callback);
+//     };
+// };

@@ -7,6 +7,12 @@ module.exports.set = function(app) {
     const saltRounds = 10;
     const validator = require('validator');
 
+    //In the future use this so I don't need to pass in user in args everytime
+    // function userView(req, res, next) {
+    //     res.locals.user = req.user;
+    //     next();
+    // }
+
     //expression-session setting
     app.use(session({
         secret: "secret",
@@ -17,7 +23,8 @@ module.exports.set = function(app) {
     //passport settings
     app.use(passport.initialize());
     app.use(passport.session()); //Use passport to manage sessions
-    
+    // app.use(userView); Use in future so no need to pass user in args to render
+
     //passport local settings
     passport.use(new LocalStrategy({
         usernameField: 'email',

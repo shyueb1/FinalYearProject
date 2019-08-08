@@ -13,18 +13,18 @@ app.set('view engine', 'ejs');
 app.use('/images', express.static(path.join(__dirname + '/images')));
 app.use('/css', express.static(__dirname + '/node_modules/bootstrap/dist/css'));
 
-controllers.set(app);
+const cors = require('cors');
 
-// (() => {
-//         DB.query("insert into item_images(key, item) values (10, 1); select image_id from item_images;", (err, res)=>{
-//             res.forEach(element => {
-//                 console.log(element.rows);
-//             });
-//         });
-//     }
-// )();
+// use it before all route definitions
+app.use(cors({origin: 'http://127.0.0.1:3000'}));
+
+
+controllers.set(app);
+  
 
 app.listen(3000, function(){
     console.log('Server started on port 3000.');
 });
+
+
 

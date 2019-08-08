@@ -10,6 +10,7 @@
                     <p class="card-text">Estimated value: £<%= item.est_cost %></p>
                     <p class="card-text">Posted by <%= item.user_posted %> </p>
                     <p>
+                        <a href="/viewoffers/<%= item.item_id %>"><button type="button" class="btn btn-success btn-sm">View Offers</button></a>
                         <a href="/edit/<%= item.item_id %>"><button type="button" class="btn btn-warning btn-sm">Edit</button></a>
                         <a href="/delete/<%= item.item_id %>" onclick="verifyDeletion()"><button type="button" class="btn btn-danger btn-sm">Delete</button></a>
                     </p>

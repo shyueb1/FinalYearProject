@@ -1,0 +1,75 @@
+<nav class="navbar navbar-dark navbar-expand-md bg-primary">
+        <a class="navbar-brand" href="/">
+            <img src="/images/logo.png" style="width: 62px; height: 50px;" alt="">
+        </a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+          <span class="navbar-toggler-icon"></span>
+        </button>
+
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+          <ul class="navbar-nav mr-auto">
+              <% if(typeof user !== 'undefined'){ %>
+              <button type="button" class="btn btn-primary">
+                <li class="nav-item dropdown active">
+                  <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    <%= user.user_name %>
+                  </a>
+                  <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                    <a class="dropdown-item" href="/youritemposts">Your Items</a>
+                    <a class="dropdown-item" href="/youroffers">Your Offers</a>
+                    <div class="dropdown-divider"></div>
+                    <a class="dropdown-item" href="/edituser">Settings</a>
+                  </div>
+                </li> 
+              </button>
+            <% } %>
+            <% if(typeof user !== 'undefined'){ %>
+            <button type="button" class="btn btn-primary">
+              <li class="nav-item dropdown active">
+                  <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                      Messages
+                  </a>
+                  <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                    <a class="dropdown-item" href="/yourmessages">Inbox</a>
+                    <a class="dropdown-item" href="/yoursentmessages">Sent</a>
+                  </div>
+              </li> 
+            </button>
+            <% } %>
+            <li class="nav-item active">
+              <a class="nav-link" href="/listitem"><button type="button" class="btn btn-primary">+List Item</button><span class="sr-only">(current)</span></a>
+            </li>
+          </ul>
+
+          <form class="form-inline my-2 my-lg-0" method="POST" action="/search">
+              <input class="form-control input-large mr-lg-2" type="search" name="search" placeholder="Search" aria-label="Search">
+              <button class="btn btn-light" type="submit">Search</button>
+          </form>
+
+          <% if(typeof user == 'undefined'){ %>
+            <a class="nav-link text-white" href="/login"><button type="button" class="btn btn-primary">Login</button></a>
+            <a class="nav-link text-white" href="/register"><button type="button" class="btn btn-primary">Register</button></a>
+          <% }else{ %>
+            <button type="button" id="noti"class="btn btn-primary" onclick="getNotifications()">
+              Notifications <span class="badge badge-light">4</span>
+            </button>
+              <a class="nav-link text-white" href="/logout"><button type="button" class="btn btn-primary">Logout</button></a>
+          <% } %>
+        </div>
+</nav>
+<script>
+//Pool DB for notifications
+function getItemOffers(){
+}
+function getMessages(){
+}
+
+function getNotifications(){
+  $.get("/testabc", function(data, status){
+    alert("Data: " + data + "\nStatus: " + status);
+  });
+}
+//using rowCount increment notification span.value
+//onClick on the notification button should 
+
+</script>

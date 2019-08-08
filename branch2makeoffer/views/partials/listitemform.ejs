@@ -3,16 +3,16 @@
     <div class="col-md-3">
     </div>
     <div class="col-md-6">
-    <form method="POST">
+    <form method="POST" enctype="multipart/form-data" >
     <br>
     <div class="form-group">
         <label for="exampleFormControlInput1">Item name </label>
-        <input type="text" class="form-control" id="item_name" name="itemname" value="<%= item.item_name %>" required>
+        <input type="text" class="form-control" id="item_name" name="itemname"placeholder="" required>
     </div>
     <div class="form-group">
         <label for="category_chosen">Category</label>
         <select class="form-control" id="category_chosen" name="category" required>
-        <option value="<%= item.category %>" selected hidden><%= item.category %></option>
+        <option value="" selected disabled hidden>Select a category</option>
         <option>Electronics/Technology</option>
         <option>Vehicles/Parts</option>
         <option>Clothing</option>
@@ -22,18 +22,30 @@
     </div>
     <div class="form-group">
         <div class="form-group">
-        <label for="exampleFormControlFile1">Add an image</label>
-        <input type="file" class="form-control-file" id="imageadded" name="image" value="<%= item.image %>" >
+        <label for="exampleFormControlFile1">Add a main image</label>
+        <input type="file" class="form-control-file" id="imageadded" name="image" required>
+        </div>
     </div>
+    <div class="form-group">
+        <div class="form-group">
+        <label for="exampleFormControlFile1">Add a second image</label>
+        <input type="file" class="form-control-file" id="imageadded" name="image">
+        </div>
+    </div>
+    <div class="form-group">
+        <div class="form-group">
+        <label for="exampleFormControlFile1">Add a third image</label>
+        <input type="file" class="form-control-file" id="imageadded" name="image">
+        </div>
     </div>
     <div class="form-group">
         <label for="item_desc">Item description</label>
-        <textarea class="form-control" id="item_desc" name="description" rows="3" value="<%= item.description %>" required><%= item.description %></textarea>
+        <textarea class="form-control" id="item_desc" name="description" rows="3" required></textarea>
     </div>
     <div class="form-group">
         <label for="location_chosen">Location</label>
         <select class="form-control" id="location_chosen" name="location" required>
-        <option value="<%= item.item_location %>" selected hidden><%= item.item_location %></option>
+        <option value="" selected disabled hidden>Select a Location</option>
         <option>North London</option>
         <option>East London</option>
         <option>West London</option>
@@ -47,7 +59,7 @@
     </div>
     <div class="form-group">
         <label>Estimated value (£)</label>
-        <input class="form-control" type="number" min="1" max="100000" id="est_value" name="value" value="<%= item.est_cost %>" required>
+        <input class="form-control" type="number" min="1" max="100000" id="est_value" name="value" placeholder="Enter a numeric value" required>
     </div>
     <div class="form-group">
         <input class="btn btn-success" type="submit" name="submit_reg" value="List your item">
