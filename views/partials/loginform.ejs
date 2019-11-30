@@ -1,0 +1,28 @@
+<div class="card border-0">
+<div class="card-body" style="width: 21.5em;margin:0 auto;">
+    <header class="card-header" style="background-color: white !important;">
+            <a href="../register/" class="float-right btn btn-outline-secondary">Sign up</a>
+            <h4 class="card-title">Sign in</h4>
+    </header>
+    <br>
+    <form class="login-form" method="POST">
+        <div class="form-group">
+                <label for="username"><span class="req"></span> Email:  <small></small> </label> 
+                        <input class="form-control" type="text" name="email" id = "txt" onkeyup = "Validate(this)" placeholder="" required />  
+                <div id="errLast"></div>
+        </div>
+        <div class="form-group">
+                <label for="password"><span class="req"> </span> Password: </label>
+                    <input required name="pass" type="password" class="form-control inputpass" minlength="4" maxlength="16"  id="pass1" /> </p>
+        </div>
+        <br>
+        <button class="btn btn-outline-success form-btn" type="submit">Login</button>
+    </form>
+    <div class="horizontal-line"></div>
+        <a href="/auth/google">
+                <button class="loginBtn loginBtn--google" type="reset">
+                        Login with Google
+                </button>
+       </a>
+</div>
+</div> <!-- card.// -->

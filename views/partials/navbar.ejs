@@ -1,0 +1,53 @@
+<link rel="stylesheet" href="/styles/navbar.css">
+<nav class="navbar navbar-expand-md navbar-dark bg-primary">
+    <a class="navbar-brand" href="/">
+      <img src="/images/logo.png" style="width: 62px; height: 50px;" alt="">
+  </a>
+  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+    <span class="navbar-toggler-icon"></span>
+  </button>
+
+  <div class="collapse navbar-collapse" id="navbarSupportedContent">
+    
+    <ul class="navbar-nav mr-auto">
+      <% if(typeof user !== 'undefined'){ %>
+        <button type="button" class="btn btn-primary nav-btn">
+          <li class="nav-item dropdown active">
+            <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+              <%= user.user_name %>
+            </a>
+            <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+              <a class="dropdown-item" href="/youritemposts">Your Items</a>
+              <a class="dropdown-item" href="/youroffers">Your Offers</a>
+            </div>
+          </li> 
+        </button>
+      <% } %>
+      <li class="nav-item active">
+        <a class="nav-link" href="/listitem"><button type="button" class="btn btn-primary nav-btn">+List Item</button><span class="sr-only">(current)</span></a>
+      </li>
+    </ul>
+
+    <form class="form-inline my-2 my-lg-0 nav-btn" method="POST" action="/search">
+        <input class="form-control input-large mr-lg-2 nav-btn" type="search" name="search" placeholder="Search" aria-label="Search" id="search-box">
+        <button class="btn btn-light nav-btn" type="submit" id="search-submit-btn">Search</button>
+    </form>
+
+    <% if(typeof user == 'undefined'){ %>
+      <a class="nav-link text-white" href="/login"><button type="button" class="btn btn-primary nav-btn">Login</button></a>
+      <a class="nav-link text-white" href="/register"><button type="button" class="btn btn-primary nav-btn">Register</button></a>
+    <% }else{ %>
+      <div class="dropdown custom-dropdown-scrollable nav-btn" id="notificationBtn">
+        <a class="btn btn-primary dropdown-toggle" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+          Notifications
+        </a>
+      <span class="badge badge-light" id="notification-counter"></span>
+
+
+        <div class="dropdown-menu" aria-labelledby="dropdownMenuLink" id="notifications-drop-down">
+          <a class="dropdown-item" id="dropdown-placeholder" href="#">No new notifications</a>
+        </div>
+      </div>
+        <a class="nav-link text-white" href="/logout"><button type="button" class="btn btn-primary nav-btn">Logout</button></a>
+    <% } %>
+  </nav>
