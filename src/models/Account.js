@@ -99,24 +99,6 @@ class Account{
     }
 
     /**
-     * Sets all notifications for the given user as read in the database.
-     * @param {String} username 
-     * @returns a promise which will resolve to an error or the result of the query.
-     */
-    setAllNotificationsRead(username){
-        var promise = new Promise((resolve, reject) => {
-            this.DB.query('UPDATE notifications SET notification_seen = true WHERE notification_for = ($1);', [username], (err, result) => {
-                if(err){
-                    reject(err);
-                }else{
-                    resolve(result.rows);
-                }
-            });
-        });
-        return promise;
-    }
-
-    /**
      * Gets the chat messages for the given user.
      * @param {String} username 
      * @returns a promise which will resolve to rows corresponding to chat messages.
