@@ -1,4 +1,4 @@
-1. To begin, install the node modules needed by doing "npm install"
+1. To begin change directory into src (run "cd src") and install the node modules needed by doing "npm install".
 2. This project requires a database connection which requires the database credentials. 
 3. Create a .env file with the following contents:
 PGUSER=piokorpxelpjjr

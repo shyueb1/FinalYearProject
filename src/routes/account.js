@@ -179,8 +179,8 @@ module.exports.set = function(app) {
      * Google OAuth2.0 strategy to authenticate users.
      */
     passport.use(new GoogleStrategy({
-        clientID: process.env.CLIENT_ID,
-        clientSecret: process.env.CLIENT_SECRET,
+        clientID: "232861616267-0nfi4json4hge3ass6g0ug53lco1t9tr.apps.googleusercontent.com",
+        clientSecret: "D5Yg3ot5Ck_T3s9drG7Xusqd",
         callbackURL: "http://localhost:3000/auth/google/callback"
       },
       function(accessToken, refreshToken, profile, done) {
