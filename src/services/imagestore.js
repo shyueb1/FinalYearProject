@@ -7,8 +7,8 @@
      * Sets up the configuration details for aws.
      */
     aws.config.update({
-        secretAccessKey: "hQSKcsGWZbjvxhPAJiNe80uNjYU2UEppo0OSJUOu",
-        accessKeyId: "AKIAI4CCWUT6PSIUIIVQ",
+        secretAccessKey: process.env.AWSACCESSKEY,
+        accessKeyId: process.env.AWSACCESSID,
         region: 'eu-west-2'
     });
 
@@ -21,7 +21,7 @@
     const upload = multer({
         storage: multerS3({
           s3: s3,
-          bucket: "test123-njs",
+          bucket: process.env.S3_BUCKET,
           metadata: function (req, file, cb) {
             cb(null, {fieldName: file.fieldname});
           },

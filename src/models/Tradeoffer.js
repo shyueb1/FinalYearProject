@@ -232,6 +232,24 @@ class Tradeoffer{
     }
 
     /**
+     * Gets a trade offer by the given trade offer ID.
+     * @param {Integer} tradeoffer 
+     * @returns a promise that resolves to a row containing the trade offer.
+     */
+    getAcceptedOffer(itemId){
+        var promise = new Promise((resolve, reject) => {
+            this.DB.query('SELECT * FROM (SELECT * FROM tradeoffer WHERE item_trading_for=($1) AND accepted_offer=TRUE) AS X INNER JOIN users ON user_id = X.user_posted_trade;', [itemId], (err, result) => {
+                if(err){
+                    reject(err);
+                }else{
+                    resolve(result);
+                }
+            });
+        });
+        return promise;
+    }
+
+    /**
      * Checks if a user's item is being traded for another item.
      * @param {String} user 
      * @param {Integer} offerID 
@@ -360,7 +378,7 @@ class Tradeoffer{
      */
     getTradeOffersOnItem(itemID){
         var promise = new Promise((resolve, reject) => {
-            this.DB.query('SELECT * FROM (SELECT * FROM tradeoffer WHERE item_trading_for = ($1)) AS x inner join users on user_id = x.user_posted_trade;',[itemID], (err, result) => {
+            this.DB.query('SELECT * FROM (SELECT * FROM tradeoffer WHERE item_trading_for = ($1)) AS x INNER JOIN users on user_id = x.user_posted_trade;',[itemID], (err, result) => {
                 if(err){
                     console.log(err);
                     reject(err);

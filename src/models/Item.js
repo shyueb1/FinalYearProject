@@ -14,7 +14,7 @@ class Item{
                 if(err){
                     reject(err);
                 }else{
-                    resolve(result);
+                    resolve(result.rows);
                 }
             });
         });
@@ -59,13 +59,14 @@ class Item{
     storeItem(user, itemname, location, value, description, category, images, callback){
         var date =  new Date();
         var year = date.getFullYear();
-        var month = date.getMonth();
+        var month = date.getMonth()+1;
         var day = date.getDate();
         var hours = date.getHours();
         var minutes = date.getMinutes();
         var seconds = date.getSeconds();
         var milliseconds = date.getMilliseconds();
         var timestamp = year+"-"+month+"-"+day+" "+hours+":"+minutes+":"+seconds+"."+milliseconds;
+        console.log(timestamp);
         this.DB.query("INSERT INTO item(user_posted, item_name, item_location, est_cost, description, category, date_posted, sold_status, main_img) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9) RETURNING item_id;",[user, itemname, location, value, description, category, timestamp, 'false', images[0].key], (err, result) => {
             if(err){
                return callback(err);
@@ -84,6 +85,7 @@ class Item{
      * @param {Integer} itemID 
      */
     storeImg(keys, itemID){
+        console.log(keys +" "+itemID);
         keys.forEach((element) => {
             this.DB.query('INSERT INTO item_images(key, item) VALUES ($1, $2);', [element.key, itemID], (err, result) => {
                 if(err){
@@ -234,7 +236,7 @@ class Item{
      */
     getItemsWithImages(){
         var promise = new Promise((resolve, reject) => {
-            this.DB.query('SELECT DISTINCT ON (item_id) * FROM (select * from item order by date_posted desc) AS items INNER JOIN item_images ON items.item_id = item_images.item;', (err, result)=>{
+            this.DB.query('SELECT DISTINCT ON (item_id) * FROM (select * from item order by date_posted desc) AS items INNER JOIN item_images ON items.item_id = item_images.item WHERE items.expired = false;', (err, result)=>{
                 if(err){
                     reject(err);
                 }{
@@ -243,6 +245,22 @@ class Item{
             }); 
         });
         return promise;  
+    }
+
+    /**
+     * Sets the expired column to true if an item has past its sell-by date.
+     */
+    setItemExpired(itemId){
+        var promise = new Promise((resolve, reject) => {
+            this.DB.query('UPDATE item SET expired = true WHERE item_id=($1);', [itemId], (err, result) => {
+                if(err){
+                    reject(err);
+                }else{
+                    resolve(result);
+                }
+            })
+        })
+        return promise;
     }
 
     

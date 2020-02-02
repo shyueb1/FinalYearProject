@@ -89,7 +89,7 @@ class Message{
      * @returns a promise that resolves to function that creates a chat then adds the message or adds the mssage to a chat.
      */
     storeMessage(sender, receiver, message){
-        var date = this.getDateNow();
+        var date = this.getDate();
         this.checkIfChatExists(sender, receiver)
         .then((result) => {
             if(result.length != 0){
@@ -128,6 +128,22 @@ class Message{
             });
         });
         return promise;
+    }
+
+    /**
+     * Returns the current date as a timestamp in string format.
+     */
+    getDate(){
+        var date =  new Date();
+        var year = date.getFullYear();
+        var month = date.getMonth()+1;
+        var day = date.getDate();
+        var hours = date.getHours();
+        var minutes = date.getMinutes();
+        var seconds = date.getSeconds();
+        var milliseconds = date.getMilliseconds();
+        var timestamp = year+"-"+month+"-"+day+" "+hours+":"+minutes+":"+seconds+"."+milliseconds;
+        return timestamp;
     }
 
 }

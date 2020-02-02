@@ -1,0 +1,53 @@
+.list-item-form > form{
+    width: 30%;
+    margin: 80px auto auto auto;
+    display: flex;
+    flex-direction: column;
+    border: 1px solid lightgray;
+    padding: 2em;
+    color: black;
+}
+
+h3{
+    color: #28A745;
+}
+
+.list-item-form > form > ul > li{
+    display: block;
+    width: 100%;
+    margin-bottom: 1.2em;
+}
+
+
+.list-item-form > form > ul{
+    display: flex;
+    flex-direction: column;
+}
+
+.est-value > input{
+    width: 85%;
+}
+
+label{
+    color: black;
+}
+
+.item-name > input{
+    width: 83%;
+}
+
+.form-input{
+    width: 80%;
+}
+
+.item-desc > textarea{
+    width: 88%;
+}
+
+.errors{
+    color: red;
+}
+
+.list-item-btn{
+    width: 50%;
+}

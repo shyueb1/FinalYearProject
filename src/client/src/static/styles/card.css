@@ -1,0 +1,58 @@
+.card{
+    height: auto;
+    width: 300px;
+    max-height: 350px;
+    border: 1px solid lightgray;
+    border-radius: 10px;
+    margin: 0 2em 2em 2em;
+    padding: 2em;
+    -webkit-box-shadow: 0px 0px 11px -5px rgba(0,0,0,0.85);
+    -moz-box-shadow: 0px 0px 11px -5px rgba(0,0,0,0.85);
+    box-shadow: 0px 0px 11px -5px rgba(0,0,0,0.85);
+    font-size: .75em;
+}
+
+.card:hover{
+    -webkit-box-shadow: 0px 0px 22px -5px rgba(0,0,0,0.85);
+    -moz-box-shadow: 0px 0px 22px -5px rgba(0,0,0,0.85);
+    box-shadow: 0px 0px 22px -5px rgba(0,0,0,0.85);
+}
+
+.card img{
+    display: block;
+    max-width:100px;
+    max-height:95px;
+    width: auto;
+    height: auto;
+}
+
+.card-content{
+    display: flex;
+    flex: 1;
+    flex-direction: column;
+    justify-content: space-between;
+    height: 100%;
+}
+
+.card-top{
+    display: flex;
+    justify-content: space-between;
+}
+
+.card-header span{
+    display: block;
+}
+
+.card-top{
+    display: flex;
+    justify-content: space-between;
+}
+
+.card-bottom{
+    display: flex;
+    justify-content: space-between;
+}
+
+.card-bottom > button {
+    margin: 0;
+}

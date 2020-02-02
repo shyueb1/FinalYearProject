@@ -1,0 +1,36 @@
+/* .container {
+    width: 80vw;
+    display: flex;
+    justify-content: space-around;
+} */
+
+.filter-menu{
+    flex: 2;
+    border: 1px solid lightgray;
+    height: 700px;
+    width: 150px;
+    max-width: 150px;
+    margin: 100px auto auto auto;
+    display: flex;
+    flex-direction: column;
+    padding: 1em;
+    -webkit-box-shadow: 0px 0px 11px -5px rgba(0,0,0,0.85);
+    -moz-box-shadow: 0px 0px 11px -5px rgba(0,0,0,0.85);
+    box-shadow: 0px 0px 11px -5px rgba(0,0,0,0.85);
+
+}
+
+.filter-menu > form{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+.items{
+    display: flex;
+    flex: 8;
+    justify-content: flex-start;
+    margin-top: 100px;
+    flex-wrap: wrap;
+    flex-direction: row;
+}

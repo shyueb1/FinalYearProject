@@ -1,0 +1,11 @@
+.search-form {
+    display: flex;
+    justify-content: center;
+}
+.search-form > button{
+    margin: .5em;
+}
+
+.find-item-btn{
+    margin-left: .5em;
+}

@@ -19,11 +19,11 @@ class DB{
      */
     createInstance() {
         this.DB = new pool({
-            user: "piokorpxelpjjr",
-            password: "be3bde01afc8334703981300318a55f44d562cd5934cf5a3a4dc432fe04816cf",
-            database: "d7mbcvj2vn80d",
+            user: process.env.PGUSER,
+            password: process.env.PGPASSWORD,
+            database: process.env.PGDATABASE,
             port: 5432,
-            host: "ec2-54-217-234-157.eu-west-1.compute.amazonaws.com",
+            host: process.env.PGHOST,
             ssl: true
         });
         this.DB.connect();

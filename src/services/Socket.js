@@ -1,6 +1,7 @@
 const io = require('socket.io');
 const Database = require('../models/Database');
-const DB = new Database();
+const Message = require('../models/Message');
+const Notification = require('../models/Notification');
 
 class Socket{
 
@@ -10,8 +11,11 @@ class Socket{
      */
     constructor(server){
         this.io = new io.listen(server);
-        this.allMissedMessages = [];
-        this.DB = DB;
+        // this.allMissedMessages = [];
+        // this.DB = DB;
+        this.DB = new Database();
+        this.message = new Message(this.DB);
+        this.notification = new Notification(this.DB);
         this.handleEvents();
     }
 
@@ -21,18 +25,35 @@ class Socket{
      */
     handleJoinEvent(socket){
         socket.on('join', (userInfo) => {
-            var usersMissedMessages = [];
-            this.allMissedMessages.forEach((message) => {
-                if(message.receiver == userInfo.room){
-                    usersMissedMessages.push(message);
-                    this.allMissedMessages.splice(this.allMissedMessages.indexOf(message), 1);
-                }
-            });
+            // var usersMissedMessages = [];
+            // this.allMissedMessages.forEach((message) => {
+            //     if(message.receiver == userInfo.room){
+            //         usersMissedMessages.push(message);
+            //         this.allMissedMessages.splice(this.allMissedMessages.indexOf(message), 1);
+            //     }
+            // });
             socket.join(userInfo.room, (err) => {
                 if(err){
                     console.log(err);
                 }else{
-                    this.io.to(userInfo.room).emit('missed messages', usersMissedMessages);
+                    // this.io.to(userInfo.room).emit('missed messages', usersMissedMessages);
+                    this.io.to(userInfo.room).emit('joinResponse', `You have successfully joined your room ${userInfo.room}`);
+                }
+            });
+        });
+    }
+
+    /**
+     * Handler for when the leave event is emitted by the socket.
+     * @param {Object} socket 
+     */
+    handleLeaveEvent(socket){
+        socket.on('leave', (room) => {
+            socket.leave(room, (err) => {
+                if(err){
+                    console.log(err);
+                }else{
+                    console.log("Left socket from room.");
                 }
             });
         });
@@ -43,20 +64,40 @@ class Socket{
      * @param {Object} socket 
      */
     handleSendMsgEvent(socket){
-        socket.on('send message', (message) => {
+        socket.on('sendMessage', (message) => {
             //store message before sending via socket
-            var socketInRoom = this.io.sockets.adapter.rooms[message.receiver] 
-            if(!socketInRoom || socketInRoom.length <= 0){
-                allMissedMessages.push(message);
-            }else{
-                this.io.to(message.receiver).emit('chat message', {
+            // const socketInRoom = this.io.sockets.adapter.rooms[message.receiver];
+            // if(!socketInRoom || socketInRoom.length <= 0){
+            //     console.log("User not online!");
+            // }else{
+            //     this.io.to(message.receiver).emit('chatMessage', {
+            //         'receiver': message.receiver,
+            //         'sender': message.sender,
+            //         'message': message.message
+            //     });
+            //     this.io.to(message.receiver).emit('notification', {
+            //         'notification_for': message.receiver,
+            //         'type': 'message',
+            //         'notification_from': message.sender,
+            //         'notification_id': new Date().getTime()
+            //     });
+            // }
+            this.message.storeMessage(message.sender, message.receiver, message.message);
+            this.notification.addMessageNotification(message.receiver, message.sender)
+            .then((result) => {
+                console.log(result);
+                this.io.to(message.receiver).emit('chatMessage', {
                     'receiver': message.receiver,
-                    'sender':message.sender,
+                    'sender': message.sender,
                     'message': message.message
                 });
-            }
-            this.DB.storeMessage(message.sender, message.receiver, message.message);
-            this.DB.addMessageNotification(message.receiver, message.sender);
+                this.io.to(message.receiver).emit('notification', {
+                    'notification_for': message.receiver,
+                    'type': 'message',
+                    'notification_from': message.sender,
+                    'notification_id': result[0].notification_id
+                });
+            })
         });
     }
 
@@ -65,7 +106,7 @@ class Socket{
      * @param {Object} socket 
      */
     handleAddNotificationEvent(socket){
-        socket.on('add notification', (notification) => {
+        socket.on('addNotification', (notification) => {
             switch(notification.type){
                 case 'message_sent':
                     break;
@@ -144,6 +185,7 @@ class Socket{
     handleEvents(){
         this.io.on('connection', (socket) => {
             this.handleJoinEvent(socket);
+            this.handleLeaveEvent(socket);
             this.handleSendMsgEvent(socket);
             this.handleAddNotificationEvent(socket);
         });

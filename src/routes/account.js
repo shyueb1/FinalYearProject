@@ -3,7 +3,7 @@ module.exports.set = function(app) {
     const passport = require('passport');
     const GoogleStrategy = require('passport-google-oauth').OAuth2Strategy;
     const LocalStrategy = require('passport-local').Strategy;
-    const bcrypt = require('bcrypt');
+    const bcrypt = require('bcryptjs');
     const saltRounds = 10;
     const validator = require('validator');
     require('dotenv').config();
@@ -179,8 +179,8 @@ module.exports.set = function(app) {
      * Google OAuth2.0 strategy to authenticate users.
      */
     passport.use(new GoogleStrategy({
-        clientID: "232861616267-0nfi4json4hge3ass6g0ug53lco1t9tr.apps.googleusercontent.com",
-        clientSecret: "D5Yg3ot5Ck_T3s9drG7Xusqd",
+        clientID: process.env.CLIENT_ID,
+        clientSecret: process.env.CLIENT_SECRET,
         callbackURL: "http://localhost:3000/auth/google/callback"
       },
       function(accessToken, refreshToken, profile, done) {
@@ -226,7 +226,7 @@ module.exports.set = function(app) {
      */
     app.post('/login', passport.authenticate('local',{failureRedirect: '/login', failureFlash: 'Invalid username or password.'}),(req, res)=>{
         req.session.save(() => {
-            res.redirect('/');
+            // res.redirect('/');
         });
     });
 

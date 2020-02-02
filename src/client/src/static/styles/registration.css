@@ -1,0 +1,61 @@
+.register-form{
+    width: 30%;
+    margin: 100px auto auto auto;
+    display: flex;
+    flex-direction: column;
+    border: 1px solid lightgray;
+    padding: 2em;
+    
+}
+
+.register-form > ul > li{
+    display: block;
+    width: 100%;
+    margin-bottom: 2em;
+    padding: .3em;
+    margin-left: 2em;
+}
+
+
+.register-form > ul{
+    display: flex;
+    flex-direction: column;
+}
+
+label{
+    color: black;
+}
+
+#register-sub-btn{
+    width: 50%;
+    margin: auto;
+    color: white;
+    background-color: #28a745;
+    padding: 1em;
+}
+
+.form-input{
+    width: 90%;
+    padding: 1em;
+}
+
+.errors{
+    color: red;
+}
+
+/*@author W3Schools, howto - CSS loader*/
+
+.loader {
+    border: 16px solid #f3f3f3; /* Light grey */
+    border-top: 16px solid #3498db; /* Blue */
+    border-radius: 50%;
+    width: 120px;
+    height: 120px;
+    animation: spin 2s linear infinite;
+    margin: auto;
+}
+
+@keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+}

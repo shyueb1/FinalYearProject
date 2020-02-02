@@ -1,0 +1,114 @@
+.nav-container{
+    position: fixed;
+    z-index: 3;
+    top: 0;
+    width: 100vw;
+    min-width: 100vw;
+    background: #007bff;
+    align-items: center;
+    color: white;
+    font-size: .9em;
+    display: flex;
+}
+
+.navbar{
+    width: 80vw;
+    /* background-color: #007bff; */
+    margin: auto;
+    display: flex;
+    height: 50px;
+}
+
+ul{
+    width: 100%;
+    text-decoration: none;
+    list-style: none;
+    display: flex;
+    justify-content: space-between;
+    /* margin: 1.3em 0 1.3em 0; */
+    color: white;
+}
+
+ul li {
+    display: flex;
+    align-items: center;
+    height: 100%;
+    /* margin: 0 1.2em 0 0; */
+    /* padding: 0 0.5em 0 0.5em; */
+    color: white;
+    text-decoration: none;
+}
+
+#logo-btn{
+    flex: 1;
+}
+
+#listitem-btn{
+    flex: 1;
+    justify-content: center;
+}
+
+#search{    
+    flex: 6;
+}
+
+#login-btn{ 
+    flex: 1;
+    justify-content: center;
+}
+
+#search form{
+    display: flex;
+    width: 100%; 
+    /* padding: .5em 0 .5em 0; */
+    flex-direction: row;
+    justify-content: center;
+    margin-bottom: 15px;
+}
+
+#search-box{
+    flex: 2;
+    padding: 1em;
+    /* margin-top: -15px; */
+    min-height: 10px;
+    max-height: 10px;
+}
+
+#search-btn{
+    flex: 0.5;
+    /* margin-left: .15em; */
+    padding: .9em;
+    margin-right: 10px;
+    /* min-height: 10px;
+    max-height: 10px; */
+    width: 50%;
+}
+
+input{
+    border-radius: 7.5px;
+    padding: .2em;
+    /* margin-left: 1.5em; */
+    font-weight: 500;
+    font-size: .8em;
+    transform: translate(0%, 20%);
+}
+
+#logo-btn > *{
+    text-decoration: none;
+    color: white;
+}
+
+#logout-btn{
+    /* margin-left: 3.5em; */
+    margin-left: .5em;
+}
+
+#user-btn{
+    /* margin-left: 3.5em; */
+}
+
+@media only screen and (max-width: 750px){
+    .navbar{
+        margin: 0 0 0 2em;
+    }
+}

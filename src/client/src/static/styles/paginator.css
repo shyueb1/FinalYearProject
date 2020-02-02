@@ -1,0 +1,17 @@
+.item-container{
+    min-width: 85%;
+    max-width: 85%;
+}
+.controls{
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    width: 50%;
+    margin: auto;
+    transform: translateX(-20%);
+    border-top: 1px solid lightgray;
+}
+
+.controls > button{
+    margin: .5em;
+}

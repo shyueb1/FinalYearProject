@@ -1,4 +1,8 @@
+const bcrypt = require('bcryptjs');
+const saltRounds = 10;
+
 class Account{
+
     constructor(databaseConnection){
         this.DB = databaseConnection;
     }
@@ -11,6 +15,24 @@ class Account{
     getUserEmail(username){
         var promise = new Promise((resolve, reject) => {
             this.DB.query('SELECT user_email FROM users WHERE user_name=($1);', [username], (err, result) => {
+                if(err){
+                    reject(err);
+                }else{
+                    resolve(result.rows[0]);
+                }
+            });
+        });
+        return promise;
+    }
+
+    /**
+     * Gets the email associated with a username.
+     * @param {String} username 
+     * @returns a promise which then gives the user's email.
+     */
+    getUserByEmail(email){
+        var promise = new Promise((resolve, reject) => {
+            this.DB.query('SELECT * FROM users WHERE user_email=($1);', [email], (err, result) => {
                 if(err){
                     reject(err);
                 }else{
@@ -74,6 +96,30 @@ class Account{
     }
 
     /**
+     * Checks if there is an account with the email or username provided.
+     * @param {String} email 
+     * @param {String} username 
+     * @returns a promise with an error or the result of the query.
+     */
+    checkEmailAndUsernameFree(email, username){
+        const promise = new Promise((resolve, reject) => {
+            this.DB.query("SELECT * FROM users WHERE user_email=$1 OR user_name=$2;", [email, username], (err, result) => {
+                if(err){
+                    console.log(err);
+                    reject(err);
+                }else{
+                    if(result.rowCount == 0){
+                        resolve(true);
+                    }else{
+                        resolve(false);
+                    }
+                }
+            });
+        });
+        return promise;
+    }
+
+    /**
      * Creates a new user account and stores it within the database.
      * @param {String} firstname 
      * @param {String} lastname 
@@ -85,8 +131,8 @@ class Account{
      */
     addAccount(firstname, lastname, username, password, email, callback){
         //Create hash and store in db
-        bcrypt.genSalt(saltRounds, function(err, salt) {
-            bcrypt.hash(password, salt, function(err, hash) {
+        bcrypt.genSalt(saltRounds, (err, salt) => {
+            bcrypt.hash(password, salt, (err, hash) => {
                 this.DB.query("insert into users(first_name, last_name, user_name, user_pass, user_email, user_role) values ($1, $2, $3, $4, $5, $6);",[firstname, lastname, username, hash, email, 'customer'], (err, result) => {
                     if(err){
                         callback(err);
@@ -96,6 +142,33 @@ class Account{
                 });
             });
         });
+    }
+
+    /**
+     * Creates a new user account and stores it within the database.
+     * @param {String} firstname 
+     * @param {String} lastname 
+     * @param {String} username 
+     * @param {String} password 
+     * @param {String} email 
+     * @returns a promise with either an error or true if the insertion into the database was successful.
+     */
+    setAccount(firstname, lastname, username, email, password){
+        const self = this;
+        const promise = new Promise((resolve, reject) => {
+            bcrypt.genSalt(saltRounds, function(err, salt) {
+                bcrypt.hash(password, salt, function(err, hash) {
+                    self.DB.query("insert into users(first_name, last_name, user_name, user_pass, user_email, user_role) values ($1, $2, $3, $4, $5, $6);",[firstname, lastname, username, hash, email, 'customer'], (err, result) => {
+                        if(err){
+                            reject(err);
+                        }else{
+                            resolve(true);
+                        } 
+                    });
+                });
+            });
+        });
+        return promise;
     }
 
     /**
@@ -162,7 +235,7 @@ class Account{
      */
     getUserPassword(email){
         var promise = new Promise((resolve, reject) => {
-            this.DB.query("SELECT user_pass FROM users WHERE user_email= $1;", [email], (err, result) => {
+            this.DB.query("SELECT user_pass, user_name FROM users WHERE user_email= $1;", [email], (err, result) => {
                 if(err){
                     reject(err);
                 }else{

@@ -1,0 +1,32 @@
+.dropdown{
+    position: relative;
+    margin-left: 3.5em;
+    z-index: 2;
+}
+
+.dropdown-items{
+    position: absolute;
+    width: 80px;
+    top: 45px;
+    word-wrap: none;
+    border: 1px solid lightgray;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    text-align: center;
+    background-color: #007bff;
+}
+
+.dropdown-item{
+    border-bottom: 1px solid lightgray;
+}
+
+.dropdown-item:hover{
+    background-color: #0360c4;
+}
+
+.dropdown-item > a{
+    color: white;
+    font-weight: 100;
+    padding: .15em;
+}

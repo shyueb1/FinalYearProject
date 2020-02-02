@@ -1,0 +1,31 @@
+.notification-container{
+    display: flex;
+    flex-direction: column;
+    width: 120px;
+}
+
+.notification-msgs{
+    position: absolute;
+    top: 50px;
+    height: 200px;
+    width: 250px;
+    overflow-y: scroll;
+    background-color: white;
+    border: 1px solid lightgray;
+    text-align: center;
+}
+
+.notification-msg{
+    border-bottom: 1px solid lightgray;
+    padding: .5em;
+}
+
+.notification-msg:hover{
+    background-color: lightgray;
+}
+
+@media only screen and (max-width: 719px) {
+    .notification-msgs{
+        right: 125px;
+    }
+}

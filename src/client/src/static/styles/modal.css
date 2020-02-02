@@ -1,0 +1,72 @@
+.modal-container{
+    position: fixed;
+    top: 10%;
+    left: calc(50% - 30vh);
+    height: auto;
+    width: 60vh;
+    border: 1px solid lightgray;
+    background-color: white;
+    z-index: 2;
+    padding: 2em;
+    display: flex;
+    flex-direction: column;
+    border-radius: 2%;
+    -webkit-box-shadow: 0px 0px 11px -5px rgba(0,0,0,0.85);
+    -moz-box-shadow: 0px 0px 11px -5px rgba(0,0,0,0.85);
+    box-shadow: 0px 0px 11px -5px rgba(0,0,0,0.85);
+}
+
+.exit-modal{
+    position: relative;
+    top: 0;
+    left: 90%;
+    height: 32px;
+    width: 32px;
+}
+
+.modal-form{
+    padding: 0;
+    margin: 0;
+    z-index: 2;
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+}
+
+#modal-recipient{
+    height: 48px;
+}
+
+#modal-msg{
+    border-radius: 2%;
+    /* border-color: 1px solid #007bff; */
+    border: 1px solid lightgray;
+}
+
+.modal-hide{
+
+}
+
+@keyframes fadeUp{
+    0% {
+        opacity: 100%;
+        top: 10%;
+    }
+
+    100% {
+        opacity: 0;
+        top: -50%;
+    }
+}
+
+/* @keyframes dropdown{
+    0% {
+        top: 0%;
+        opacity: 100%;
+    }
+
+    100% {
+        top: 10%;
+        opacity: 100%;
+    }
+} */

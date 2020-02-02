@@ -1,0 +1,37 @@
+@keyframes dropdown{
+    0%{
+        top: 0%;
+        opacity: 100%;
+    }
+    70%{
+        top: 4%;
+        opacity: 100%;
+    }
+    100%{
+        top: 7%;
+        opacity: 0%;
+    }
+}
+
+.notification{
+    position: absolute;
+    top: 7%;
+    left: calc(100% - 320px);
+    height: 100px;
+    width: 300px;
+    border: 1px solid blue;
+    border-radius: 10px;
+    animation: dropdown 5s;
+    z-index: 2;
+    background-color: white;
+    color: lightgreen;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    text-align: center;
+}
+
+.notification-msg{
+    color: black;
+    font-weight: 200;
+}
