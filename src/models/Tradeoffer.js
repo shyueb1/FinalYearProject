@@ -12,7 +12,7 @@ class Tradeoffer{
      * @returns a promise that resolves to a row containing the new trade offers ID.
      */
     setCashOnlyTradeOffer(itemTradingFor, moneyOffered, offerMessage, dateOfOffer, userPostedOffer){
-        var promise = new Promise((resolve, reject) => {
+        let promise = new Promise((resolve, reject) => {
             this.DB.query("INSERT INTO tradeoffer(item_trading_for, money_offered, offer_message, date_of_offer, user_posted_trade, cash_only) VALUES ($1, $2, $3, $4, $5, $6) RETURNING tradeoffer_id;",[itemTradingFor, moneyOffered, offerMessage, dateOfOffer, userPostedOffer, 'true'] , (err, result) => {
                 if(err){
                     reject(err);
@@ -34,7 +34,7 @@ class Tradeoffer{
      * @returns a promise that resolves to a row containing the trade offers ID.
      */
     setTradeOffer(itemTradingFor, moneyOffered, offerMessage, dateOfOffer, userPostedOffer){
-        var promise = new Promise((resolve, reject) => {
+        let promise = new Promise((resolve, reject) => {
             this.DB.query("INSERT INTO tradeoffer(item_trading_for, money_offered, offer_message, date_of_offer, user_posted_trade) VALUES ($1, $2, $3, $4, $5) RETURNING tradeoffer_id;",[itemTradingFor, moneyOffered, offerMessage, dateOfOffer, userPostedOffer] , (err, result) => {
                 if(err){
                     reject(err);
@@ -53,7 +53,7 @@ class Tradeoffer{
      * @returns a promise with no value. 
      */
     addTradeItem(itemOffered, tradeofferID){
-        var promise = new Promise((resolve, reject) => {
+        let promise = new Promise((resolve, reject) => {
             this.DB.query("INSERT INTO item_in_trade(item_being_traded, part_of_offer) VALUES ($1, $2);", [itemOffered, tradeofferID], (err, result) => {
                 if(err){
                     reject(err);
@@ -71,7 +71,7 @@ class Tradeoffer{
      * @returns a promise that resolves to rows containing the items matching the filters. 
      */
     getAllItemsFromTradeOffers(selectionFilters){
-        var promise = new Promise((resolve, reject) => {
+        let promise = new Promise((resolve, reject) => {
             this.DB.query('SELECT * FROM (SELECT * FROM item_in_trade) AS X INNER JOIN item ON item_id = item_being_traded WHERE ' + selectionFilters, (err, result) => {
                 if(err){
                     reject(err);
@@ -89,7 +89,7 @@ class Tradeoffer{
      * @returns a promise that resolves to a row containing trade offers.
      */
     getTradeOffersForItem(itemID){
-        var promise = new Promise((resolve, reject) => {
+        let promise = new Promise((resolve, reject) => {
             this.DB.query('SELECT * FROM (SELECT * FROM tradeoffer WHERE item_trading_for = ($1)) AS X INNER JOIN users ON user_id = user_posted_trade;', [itemID], (err, result) => {
                 if(err){
                     reject(err);
@@ -108,7 +108,7 @@ class Tradeoffer{
      * @returns a promise that resolves to a row containing
      */
     setOfferStatus(status, tradeoffer){
-        var promise = new Promise((resolve, reject) => {
+        let promise = new Promise((resolve, reject) => {
             this.DB.query('UPDATE tradeoffer SET accepted_offer = ($1) WHERE tradeoffer_id = ($2) RETURNING item_trading_for;', [status, tradeoffer], (err, result) => {
                 if(err){
                     reject(err);
@@ -126,7 +126,7 @@ class Tradeoffer{
      * @returns a promise that resolves to a row containing
      */
     deleteOffer(offerID){
-        var promise = new Promise((resolve, reject) => {
+        let promise = new Promise((resolve, reject) => {
             this.DB.query(`DELETE FROM tradeoffer where tradeoffer_id=($1);`, [offerID], (err, result) => {
                 if(err){
                     reject(err);
@@ -144,7 +144,7 @@ class Tradeoffer{
      * @returns a promise that resolves to a row containing the items of the trade offer.
      */
     retrieveItemOffer(tradeoffer){
-        var promise = new Promise((resolve, reject) => {
+        let promise = new Promise((resolve, reject) => {
             this.DB.query(`SELECT distinct on (item_being_traded) item_being_traded, key FROM item_in_trade inner join item_images on item_being_traded = item WHERE part_of_offer=($1);`, [tradeoffer], (err, result) => {
                 if(err){
                     reject(err);
@@ -162,7 +162,7 @@ class Tradeoffer{
      * @returns a promise that resolves to a row containing the cash trade offer if it exists.
      */
     isCashOfferOnly(tradeoffer){
-        var promise = new Promise((resolve, reject) => {
+        let promise = new Promise((resolve, reject) => {
             this.DB.query(`SELECT * FROM item_in_trade WHERE part_of_offer = ($1);`, [tradeoffer], (err, result) => {
                 if(err){
                     reject(err);
@@ -180,7 +180,7 @@ class Tradeoffer{
      * @returns a promise that resolves a rows containing the user's trade offers.
      */
     getUsersTradeOffer(username){
-        var promise = new Promise((resolve, reject) => {
+        let promise = new Promise((resolve, reject) => {
             this.DB.query(`SELECT DISTINCT ON (tradeoffer_id) tradeoffer_id, item_name, money_offered, item_id, est_cost, description, key
                     FROM (SELECT * FROM tradeoffer 
                     INNER JOIN item ON item_trading_for = item_id where user_posted_trade=($1)) AS X 
@@ -201,7 +201,7 @@ class Tradeoffer{
      * @returns a promise that resolves to a row containing trade offers that were previously accepted.
      */
     getPreviousAcceptedOffer(itemID){
-        var promise = new Promise((resolve, reject) => {
+        let promise = new Promise((resolve, reject) => {
             this.DB.query('SELECT * FROM tradeoffer WHERE item_trading_for = ($1) AND accepted_offer = true;', [itemID], (err, result) => {
                 if(err){
                     reject(err);
@@ -219,7 +219,7 @@ class Tradeoffer{
      * @returns a promise that resolves to a row containing the trade offer.
      */
     getItemTradingFor(tradeoffer){
-        var promise = new Promise((resolve, reject) => {
+        let promise = new Promise((resolve, reject) => {
             this.DB.query('SELECT * FROM tradeoffer WHERE tradeoffer_id = ($1);', [tradeoffer], (err, result) => {
                 if(err){
                     reject(err);
@@ -237,7 +237,7 @@ class Tradeoffer{
      * @returns a promise that resolves to a row containing the trade offer.
      */
     getAcceptedOffer(itemId){
-        var promise = new Promise((resolve, reject) => {
+        let promise = new Promise((resolve, reject) => {
             this.DB.query('SELECT * FROM (SELECT * FROM tradeoffer WHERE item_trading_for=($1) AND accepted_offer=TRUE) AS X INNER JOIN users ON user_id = X.user_posted_trade;', [itemId], (err, result) => {
                 if(err){
                     reject(err);
@@ -256,7 +256,7 @@ class Tradeoffer{
      * @returns a promise that resolves to true if the user's item is being traded and false otherwise.
      */
     isUsersItemInTradeOffer(user, offerID){
-        var promise = new Promise((resolve, reject) => {
+        let promise = new Promise((resolve, reject) => {
             this.DB.query('SELECT * FROM (SELECT * FROM (SELECT * FROM tradeoffer WHERE tradeoffer_id = ($2)) AS x INNER JOIN item ON item_id = item_trading_for) AS y WHERE user_posted = ($1);', [user, offerID], (err, result) => {
                 if(err){
                     reject(err);
@@ -279,7 +279,7 @@ class Tradeoffer{
      * @returns true if the trade was posted by that user and false otherwise.
      */
     isUsersOffer(user, offerID){
-        var promise = new Promise((resolve, reject) => {
+        let promise = new Promise((resolve, reject) => {
             this.DB.query('SELECT * FROM tradeoffer where user_posted_trade = ($1) AND tradeoffer_id = ($2);', [user, offerID], (err, result) => {
                 if(err){
                     reject(err);
@@ -301,7 +301,7 @@ class Tradeoffer{
      * @returns a promise that resolves to an error or a row containing the result of the deletion.
      */
     removeTradeOffer(offerID){
-        var promise = new Promise((resolve, reject) => {
+        let promise = new Promise((resolve, reject) => {
             this.DB.query('DELETE FROM tradeoffer WHERE tradeoffer_id = ($1);', [offerID], (err, result) => {
                 if(err){
                     console.log(err);
@@ -320,7 +320,7 @@ class Tradeoffer{
      * @returns a promise that resolves to a row containing the item and it's details.
      */
     getItemOwner(itemID){
-        var promise = new Promise((resolve, reject) => {
+        let promise = new Promise((resolve, reject) => {
             this.DB.query('SELECT * FROM item WHERE item_id = ($1);', [itemID], (err, result) => {
                 if(err){
                     console.log(err);
@@ -339,7 +339,7 @@ class Tradeoffer{
      * @returns a promise that resolves to an error or a row containing the items in the trade offer.
      */
     getItemFromTradeOffer(offerID){
-        var promise = new Promise((resolve, reject) => {
+        let promise = new Promise((resolve, reject) => {
             this.DB.query('SELECT * FROM (SELECT * FROM (SELECT * FROM tradeoffer WHERE tradeoffer_id = ($1)) AS x inner join item on item_id = item_trading_for) AS y;', [offerID], (err, result) => {
                     if(err){
                         console.log(err);
@@ -358,7 +358,7 @@ class Tradeoffer{
      * @returns a promise that resolves to an error or a row containing the offer and the user who posted it.
      */
     getOfferFromOfferID(offerID){
-        var promise = new Promise((resolve, reject) => {
+        let promise = new Promise((resolve, reject) => {
             this.DB.query('SELECT * FROM (SELECT * FROM tradeoffer WHERE tradeoffer_id = ($1)) AS x INNER JOIN users ON user_id = user_posted_trade;', [offerID], (err, result) => {
                 if(err){
                     console.log(err);
@@ -377,7 +377,7 @@ class Tradeoffer{
      * @returns a promise that resolves to an error or rows containing trade offers placed for it.
      */
     getTradeOffersOnItem(itemID){
-        var promise = new Promise((resolve, reject) => {
+        let promise = new Promise((resolve, reject) => {
             this.DB.query('SELECT * FROM (SELECT * FROM tradeoffer WHERE item_trading_for = ($1)) AS x INNER JOIN users on user_id = x.user_posted_trade;',[itemID], (err, result) => {
                 if(err){
                     console.log(err);

@@ -39,8 +39,8 @@ module.exports.set = function(app) {
         if(req.isAuthenticated()){
             account.getUsersChats(req.user.rows[0].user_name).then((usersChats) => {
                 //Creating array of the users the person has a conversation with
-                var chatPersons = [];
-                for(var i = 0; i < usersChats.length; i++){
+                let chatPersons = [];
+                for(let i = 0; i < usersChats.length; i++){
                     if(usersChats[i].user_one != req.user.rows[0].user_name){
                         chatPersons.push(usersChats[i].user_one);
                     }else{
@@ -48,16 +48,16 @@ module.exports.set = function(app) {
                     }
                 }
                 //Getting the chat messages
-                var chatMessagePromises = [];
-                var groupedChats = []
+                let chatMessagePromises = [];
+                let groupedChats = []
                 usersChats.forEach((chat) => {
-                    var chatMessages = account.getChatMessages(chat.chat_id);
+                    let chatMessages = account.getChatMessages(chat.chat_id);
                     chatMessagePromises.push(chatMessages);
                     groupedChats.push([chatMessages]);
                 });
                 Promise.all(chatMessagePromises).then((allChatMessages) => {
-                    var allGroupedChats = [];
-                    for(var i = 0; i < groupedChats.length; i++){
+                    let allGroupedChats = [];
+                    for(let i = 0; i < groupedChats.length; i++){
                         allGroupedChats.push(groupedChats[i][0]);
                     }
                     Promise.all(allGroupedChats).then((result) => {
@@ -130,7 +130,7 @@ module.exports.set = function(app) {
         account.getUserPassword(email)
         .then((result) => {
             if(result.rows.length != 0){
-                var storedHashPassword = result.rows[0].user_pass;
+                let storedHashPassword = result.rows[0].user_pass;
                 bcrypt.compare(submittedPassword, storedHashPassword, function(err, res) {
                     if(err){
                         console.log(err);
@@ -214,7 +214,7 @@ module.exports.set = function(app) {
         if(req.isAuthenticated()){
             return res.redirect("/");
         }else{
-            var args = {
+            let args = {
                 message: req.flash('error'),
             };
             return res.render('pages/login', args);
@@ -242,15 +242,15 @@ module.exports.set = function(app) {
      * Endpoint for registering a new user account.
      */
     app.post('/register', (req, res, next) => {
-        var firstname = req.body.firstname;
-        var lastname = req.body.lastname;
-        var username = req.body.username;
-        var email = req.body.email;
-        var password = req.body.pass;
+        let firstname = req.body.firstname;
+        let lastname = req.body.lastname;
+        let username = req.body.username;
+        let email = req.body.email;
+        let password = req.body.pass;
         
-        var validInfo = true;
+        let validInfo = true;
         //Validate input 
-        var info = [firstname, lastname, username];
+        let info = [firstname, lastname, username];
         for(word in info){
             if(!validator.isAlphanumeric(info[word], 'en-GB')){
                 req.flash('message', 'Account failed to make. Validation failed.');
@@ -289,7 +289,7 @@ module.exports.set = function(app) {
         if(req.isAuthenticated()){
             return res.redirect('/');
         }else{
-            var args = {
+            let args = {
                 message: req.flash('message') 
             };
             return res.render('pages/register', args);

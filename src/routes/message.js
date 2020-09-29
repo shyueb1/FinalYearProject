@@ -8,10 +8,10 @@ module.exports.set = function(app) {
      * Endpoint that stores message to be sent.
      */
     app.post('/sendmessage', (req, res) => {
-        var sender = req.user.rows[0].user_name;
-        var receiver = req.body.recipient;
-        var title = req.body.title;
-        var message = req.body.message;
+        let sender = req.user.rows[0].user_name;
+        let receiver = req.body.recipient;
+        let title = req.body.title;
+        let message = req.body.message;
         messageModel.storeMessage(sender, receiver, message).then((result) => {
             req.flash('message', 'Message has been sent.');
             return res.redirect("/");
@@ -27,10 +27,10 @@ module.exports.set = function(app) {
      */
     app.get("/yourmessages", (req, res)=>{
         if(req.isAuthenticated()){
-            var user = req.user.rows[0].user_name;
+            let user = req.user.rows[0].user_name;
             //Get latest message for each unique chat user is involved in
             messageModel.getUsersChats(user).then((result) => {
-                var privateMessages = result;
+                let privateMessages = result;
                 args = {
                     'privateMessages': privateMessages,
                     'user': req.user.rows[0],
@@ -55,7 +55,7 @@ module.exports.set = function(app) {
      * Enpoint that retrieves messages the user has sent.
      */
     app.get("/yoursentmessages", (req, res)=>{
-        var username = req.user.rows[0].user_name;
+        let username = req.user.rows[0].user_name;
         messageModel.getUsersSentMessages(username)
         .then((result) => {
             args = {

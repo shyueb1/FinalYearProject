@@ -49,7 +49,7 @@ router.post('/login', (req, res) => {
     .then((result) => {
         //if there is an account with that email
         if(result.rowCount > 0){
-            var storedHashPassword = result.rows[0].user_pass;
+            let storedHashPassword = result.rows[0].user_pass;
             bcrypt.compare(password, storedHashPassword, (err, match) => {
                 if(err){
                     console.log(err);

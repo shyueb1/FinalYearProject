@@ -10,15 +10,15 @@ const express = require('express');
 const router = express.Router();
 
 const getDate = () => {
-    var date =  new Date();
-    var year = date.getFullYear();
-    var month = date.getMonth()+1;
-    var day = date.getDate();
-    var hours = date.getHours();
-    var minutes = date.getMinutes();
-    var seconds = date.getSeconds();
-    var milliseconds = date.getMilliseconds();
-    var timestamp = year+"-"+month+"-"+day+" "+hours+":"+minutes+":"+seconds+"."+milliseconds;
+    let date =  new Date();
+    let year = date.getFullYear();
+    let month = date.getMonth()+1;
+    let day = date.getDate();
+    let hours = date.getHours();
+    let minutes = date.getMinutes();
+    let seconds = date.getSeconds();
+    let milliseconds = date.getMilliseconds();
+    let timestamp = year+"-"+month+"-"+day+" "+hours+":"+minutes+":"+seconds+"."+milliseconds;
     return timestamp;
 }
 
@@ -154,10 +154,10 @@ router.get('/getitemoffers/:id', auth, (req, res) => {
             if(youOwnItem){
                 offer.getTradeOffersForItem(itemId)
                 .then((tradeOffers) => {
-                   var tradeOffersFormatted = [];
-                   var allTradeOfferIDsForDBQuery = '';
+                   let tradeOffersFormatted = [];
+                   let allTradeOfferIDsForDBQuery = '';
                    tradeOffers.forEach((offer) => {
-                        var t = {
+                        let t = {
                             "id": offer.tradeoffer_id,
                             "message": offer.offer_message,
                             "acceptedOffer": offer.accepted_offer,

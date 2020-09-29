@@ -9,7 +9,7 @@ class Message{
      * @returns a promise that resolves to rows containing chats the user participated in.
      */
     getUsersChats(user){
-        var promise = new Promise((resolve, reject) => {
+        let promise = new Promise((resolve, reject) => {
             this.DB.query(`SELECT DISTINCT ON (part_of_chat) * FROM (SELECT * FROM (SELECT * FROM chat WHERE user_one=($1) or user_two=($1)) AS X INNER JOIN message ON part_of_chat=chat_id ORDER BY date_posted) AS Y;`, [user], (err, result) => {
                 if(err){
                     reject(err);
@@ -28,7 +28,7 @@ class Message{
      * @returns a promise that resolves to an error or a row containing the chat ID for the chat they are in together.
      */
     checkIfChatExists(sender, receiver){
-        var promise = new Promise((resolve, reject) => {
+        let promise = new Promise((resolve, reject) => {
             this.DB.query('SELECT chat_id FROM chat WHERE user_one=($1) AND user_two=($2) OR user_one=($2) AND user_two=($1);', [sender, receiver], (err, result) => {
                 if(err){
                     reject(err);
@@ -47,7 +47,7 @@ class Message{
      * @returns a promise that resolves to an error or a row containing the chat ID.
      */
     makeNewChat(sender, receiver){
-        var promise = new Promise((resolve, reject) => {
+        let promise = new Promise((resolve, reject) => {
             this.DB.query('INSERT INTO chat(user_one, user_two) VALUES ($1, $2) RETURNING chat_id;', [sender, receiver], (err, result) => {
                 if(err){
                     reject(err);
@@ -69,7 +69,7 @@ class Message{
      * @returns a promise that resolves to an error or the rows containing the chat message.
      */
     addMessageToChat(sender, receiver, message, date, chatID){
-        var promise = new Promise((resolve, reject) => {
+        let promise = new Promise((resolve, reject) => {
             this.DB.query('INSERT INTO message(sender, receiver, message, date_posted, part_of_chat) VALUES ($1, $2, $3, $4, $5);', [sender, receiver, message, date, chatID], (err, result) => {
                 if(err){
                     reject(err);
@@ -89,17 +89,17 @@ class Message{
      * @returns a promise that resolves to function that creates a chat then adds the message or adds the mssage to a chat.
      */
     storeMessage(sender, receiver, message){
-        var date = this.getDate();
+        let date = this.getDate();
         this.checkIfChatExists(sender, receiver)
         .then((result) => {
             if(result.length != 0){
-                var chatID = result[0].chat_id;
+                let chatID = result[0].chat_id;
                 return this.addMessageToChat(sender, receiver, message, date, chatID);
             }else{
                 //Make the chat
                 this.makeNewChat(sender, receiver)
                 .then((result) => {
-                    var chatID = result[0].chat_id;
+                    let chatID = result[0].chat_id;
                     return this.addMessageToChat(sender, receiver, message, date, chatID);
                 })
                 .catch((err) => {
@@ -118,7 +118,7 @@ class Message{
      * @returns a promise that resolves to rows containing the users sent messages.
      */
     getUsersSentMessages(username){
-        var promise = new Promise((resolve, reject) => {
+        let promise = new Promise((resolve, reject) => {
             this.DB.query('SELECT * FROM message where sender=($1) ORDER BY date_posted desc;', [username], (err, result) => {
                 if(err){
                     reject(err);
@@ -134,15 +134,15 @@ class Message{
      * Returns the current date as a timestamp in string format.
      */
     getDate(){
-        var date =  new Date();
-        var year = date.getFullYear();
-        var month = date.getMonth()+1;
-        var day = date.getDate();
-        var hours = date.getHours();
-        var minutes = date.getMinutes();
-        var seconds = date.getSeconds();
-        var milliseconds = date.getMilliseconds();
-        var timestamp = year+"-"+month+"-"+day+" "+hours+":"+minutes+":"+seconds+"."+milliseconds;
+        let date =  new Date();
+        let year = date.getFullYear();
+        let month = date.getMonth()+1;
+        let day = date.getDate();
+        let hours = date.getHours();
+        let minutes = date.getMinutes();
+        let seconds = date.getSeconds();
+        let milliseconds = date.getMilliseconds();
+        let timestamp = year+"-"+month+"-"+day+" "+hours+":"+minutes+":"+seconds+"."+milliseconds;
         return timestamp;
     }
 

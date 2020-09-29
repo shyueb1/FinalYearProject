@@ -11,7 +11,7 @@ module.exports.set = function(app) {
      * Endpoint that deletes a notification by its ID.
      */
     app.post('/notification/delete', (req, res) => {
-        var notification = req.body.notificationID;
+        let notification = req.body.notificationID;
         notify.deleteNotification(notification).then((result) => {
             res.send('deleted notification');
         }).catch((err) => {
@@ -23,10 +23,10 @@ module.exports.set = function(app) {
      * Endpoint that adds a notification.
      */
     app.post('/notification/add', (req, res) => {
-        var type = req.body.type;
-        var notificationFor = req.body.notificationFor;
-        var notificationFrom = req.body.notificationFrom;
-        var relatedItem = req.body.relatedItem;
+        let type = req.body.type;
+        let notificationFor = req.body.notificationFor;
+        let notificationFrom = req.body.notificationFrom;
+        let relatedItem = req.body.relatedItem;
         if(type != 'message'){
             notify.addItemNotification(notificationFor, type, sentAt, notificationFrom, relatedItem).then((result) => {
                 res.send('added '+type+' notification');

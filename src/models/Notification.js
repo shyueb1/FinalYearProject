@@ -9,7 +9,7 @@ class Notification{
      * @returns a promise that resolves to an error or the string "deleted" if it was deleted.
      */
     deleteNotification(notificationID){
-        var promise = new Promise((resolve, reject) => {
+        let promise = new Promise((resolve, reject) => {
             this.DB.query('DELETE FROM notifications WHERE notification_id = ($1);', [notificationID], (err, result) => {
                 if(err){
                     reject(err);
@@ -33,7 +33,7 @@ class Notification{
      * @returns a promise that resolves to an error or the string "Added" if it was added.
      */
     addMessageNotification(notificationFor, notificationFrom){
-        var promise = new Promise((resolve, reject) => {
+        let promise = new Promise((resolve, reject) => {
             this.DB.query('INSERT INTO notifications (notification_for, type, sent_at, notification_from) VALUES ($1, $2, $3, $4) RETURNING notification_id;', [notificationFor, 'message_sent', this.getDate(), notificationFrom], (err, result) => {
                 if(err){
                     reject(err);
@@ -59,7 +59,7 @@ class Notification{
      * @returns a promise that resolves to an error or a String "added" if the notification was added.
      */
     addItemNotification(notificationFor, type, sentAt, notificationFrom, relatedItem){
-        var promise = new Promise((resolve, reject) => {
+        let promise = new Promise((resolve, reject) => {
             this.DB.query('INSERT INTO notifications (notification_for, type, sent_at, notification_from, related_item) VALUES ($1, $2, $3, $4, $5);', [notificationFor, type, sentAt, notificationFrom, relatedItem], (err, result) => {
                 if(err){
                     reject(err);
@@ -84,8 +84,8 @@ class Notification{
      * @returns a promise that resolves to an error or a row containing the result of the insertion.
      */
     storeNotification(notificationFor, type, sender, relatedItem){
-        var sentAt = this.getDate();
-        var promise = new Promise((resolve, reject) => {
+        let sentAt = this.getDate();
+        let promise = new Promise((resolve, reject) => {
             this.DB.query('INSERT INTO notifications(notification_for, type, sent_at, notification_from, related_item) VALUES ($1, $2, $3, $4, $5);', [notificationFor, type, sentAt, sender, relatedItem], (err, result) => {
                 if(err){
                     console.log(err);
@@ -104,7 +104,7 @@ class Notification{
     //  * @returns a promise which will resolve to an error or the result of the query.
     //  */
     // setAllNotificationsRead(username){
-    //     var promise = new Promise((resolve, reject) => {
+    //     let promise = new Promise((resolve, reject) => {
     //         this.DB.query('UPDATE notifications SET notification_seen = true WHERE notification_for = ($1);', [username], (err, result) => {
     //             if(err){
     //                 reject(err);
@@ -122,7 +122,7 @@ class Notification{
      * @returns a promise which will resolve to an error or the result of the query.
      */
     setAllNotificationsRead(username, id){
-        var promise = new Promise((resolve, reject) => {
+        let promise = new Promise((resolve, reject) => {
             this.DB.query('UPDATE notifications SET notification_seen = true WHERE notification_for = ($1) AND notification_id <= ($2);', [username, id], (err, result) => {
                 if(err){
                     reject(err);
@@ -138,15 +138,15 @@ class Notification{
      * Returns the current date as a timestamp in string format.
      */
     getDate(){
-        var date =  new Date();
-        var year = date.getFullYear();
-        var month = date.getMonth()+1;
-        var day = date.getDate();
-        var hours = date.getHours();
-        var minutes = date.getMinutes();
-        var seconds = date.getSeconds();
-        var milliseconds = date.getMilliseconds();
-        var timestamp = year+"-"+month+"-"+day+" "+hours+":"+minutes+":"+seconds+"."+milliseconds;
+        let date =  new Date();
+        let year = date.getFullYear();
+        let month = date.getMonth()+1;
+        let day = date.getDate();
+        let hours = date.getHours();
+        let minutes = date.getMinutes();
+        let seconds = date.getSeconds();
+        let milliseconds = date.getMilliseconds();
+        let timestamp = year+"-"+month+"-"+day+" "+hours+":"+minutes+":"+seconds+"."+milliseconds;
         return timestamp;
     }
 }

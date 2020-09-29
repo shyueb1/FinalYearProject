@@ -8,7 +8,7 @@ const auth = (req, res, next) => {
     //verify token
     const token = req.headers.authorization;
     try {
-        var decoded = jwt.verify(token, process.env.PRIVATE_KEY);
+        let decoded = jwt.verify(token, process.env.PRIVATE_KEY);
         req.isAuthenticated = true; 
         user.getUserByEmail(decoded.email)
         .then((user) => {

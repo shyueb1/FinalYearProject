@@ -1,5 +1,5 @@
 const pool = require('pg').Pool;
-require('dotenv').config(); //To get environment variables
+require('dotenv').config(); //To get environment letiables
 
 class DB{
 
@@ -46,15 +46,15 @@ class DB{
      * @returns a String with the date formatted.
      */
     getDateNow(){
-        var date =  new Date();
-        var year = date.getFullYear();
-        var month = date.getMonth();
-        var day = date.getDate();
-        var hours = date.getHours();
-        var minutes = date.getMinutes();
-        var seconds = date.getSeconds();
-        var milliseconds = date.getMilliseconds();
-        var timestamp = year+"-"+month+"-"+day+" "+hours+":"+minutes+":"+seconds+"."+milliseconds;
+        let date =  new Date();
+        let year = date.getFullYear();
+        let month = date.getMonth();
+        let day = date.getDate();
+        let hours = date.getHours();
+        let minutes = date.getMinutes();
+        let seconds = date.getSeconds();
+        let milliseconds = date.getMilliseconds();
+        let timestamp = year+"-"+month+"-"+day+" "+hours+":"+minutes+":"+seconds+"."+milliseconds;
         return timestamp;
     }
 }

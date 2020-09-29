@@ -25,18 +25,10 @@ class Socket{
      */
     handleJoinEvent(socket){
         socket.on('join', (userInfo) => {
-            // var usersMissedMessages = [];
-            // this.allMissedMessages.forEach((message) => {
-            //     if(message.receiver == userInfo.room){
-            //         usersMissedMessages.push(message);
-            //         this.allMissedMessages.splice(this.allMissedMessages.indexOf(message), 1);
-            //     }
-            // });
             socket.join(userInfo.room, (err) => {
                 if(err){
                     console.log(err);
                 }else{
-                    // this.io.to(userInfo.room).emit('missed messages', usersMissedMessages);
                     this.io.to(userInfo.room).emit('joinResponse', `You have successfully joined your room ${userInfo.room}`);
                 }
             });
@@ -66,22 +58,6 @@ class Socket{
     handleSendMsgEvent(socket){
         socket.on('sendMessage', (message) => {
             //store message before sending via socket
-            // const socketInRoom = this.io.sockets.adapter.rooms[message.receiver];
-            // if(!socketInRoom || socketInRoom.length <= 0){
-            //     console.log("User not online!");
-            // }else{
-            //     this.io.to(message.receiver).emit('chatMessage', {
-            //         'receiver': message.receiver,
-            //         'sender': message.sender,
-            //         'message': message.message
-            //     });
-            //     this.io.to(message.receiver).emit('notification', {
-            //         'notification_for': message.receiver,
-            //         'type': 'message',
-            //         'notification_from': message.sender,
-            //         'notification_id': new Date().getTime()
-            //     });
-            // }
             this.message.storeMessage(message.sender, message.receiver, message.message);
             this.notification.addMessageNotification(message.receiver, message.sender)
             .then((result) => {

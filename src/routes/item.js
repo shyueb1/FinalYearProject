@@ -16,7 +16,7 @@ module.exports.set = function(app) {
         //if user authenticated -> get details
         if(req.isAuthenticated()){
             item.getItemsWithImages().then((itemsAndImages) => {
-                var args = {
+                let args = {
                     'items': itemsAndImages,
                     'message':req.flash('message'),
                 }
@@ -24,8 +24,8 @@ module.exports.set = function(app) {
             });
         }else{
             item.getItemsWithImages().then((result) => {
-                var items = result;
-                var args = {
+                let items = result;
+                let args = {
                     'items': items,
                     'message':req.flash('message')
                 };
@@ -39,13 +39,13 @@ module.exports.set = function(app) {
      */
     app.get('/listitem', (req, res) => {
         if(req.isAuthenticated()){
-            var args = {
+            let args = {
                 'message': req.flash('message')
             };
             return res.render('pages/listitem', args);
         }else{
             req.flash('message', 'Create a free account or login to post an item.');
-            var args = {
+            let args = {
                 'message': req.flash('message')
             }
             return res.render('pages/listitem', args);
@@ -57,13 +57,13 @@ module.exports.set = function(app) {
      * Endpoint that stores images sent by the item listing form.
      */
     app.post('/listitem', imagestore.array('image', 3), (req, res) => {
-        var itemname = req.body.itemname;
-        var category = req.body.category;
-        var images = req.files;
-        var description = req.body.description;
-        var location = req.body.location;
-        var value = req.body.value;
-        var userListing = req.user.rows[0].user_name;
+        let itemname = req.body.itemname;
+        let category = req.body.category;
+        let images = req.files;
+        let description = req.body.description;
+        let location = req.body.location;
+        let value = req.body.value;
+        let userListing = req.user.rows[0].user_name;
         item.storeItem(userListing, itemname, location, value, description, category, images, (err, result)=>{
             if(err){
                 console.log(err);
@@ -80,10 +80,10 @@ module.exports.set = function(app) {
      * Endpoint that gets items with a similar name to the given search term.
      */
     app.post("/search", (req, res) => {
-        var query = req.body.search;
+        let query = req.body.search;
         item.getItemWithSimilarName(query).then((result) => {
-            var items = result.rows;
-            var args = {
+            let items = result.rows;
+            let args = {
                 'items': items,
                 'message':req.flash('message')
             };
@@ -99,14 +99,14 @@ module.exports.set = function(app) {
             //get latest item posts
             item.getLatestItemPosts(req.user.rows[0].user_name).then((result) => {
                 console.log(result);
-                var args = {
+                let args = {
                     'items': result,
                     'message':req.flash('message')
                 };
                 return res.render('pages/youritems', args);
             }).catch((err) => {
                 console.log("error at item post");
-                var args = {
+                let args = {
                     'items': '',
                     'message':req.flash('message')
                 };
@@ -123,8 +123,8 @@ module.exports.set = function(app) {
      */
     app.get('/edit/:id', (req, res) => {
         if(req.isAuthenticated()){
-            var user = req.user.rows[0].user_name;
-            var itemID = req.params.id;
+            let user = req.user.rows[0].user_name;
+            let itemID = req.params.id;
             item.isItemOwner(user, itemID).then((youOwnItem) => {
                 if(youOwnItem){
                     item.getItemByID(itemID).then((item) => {
@@ -150,13 +150,13 @@ module.exports.set = function(app) {
      * Endpoint that lets you post changes to an item you own.
      */
     app.post('/edit/:id', (req, res) => {
-        var itemID = req.params.id;
-        var itemname = req.body.itemname;
-        var category = req.body.category;
-        var description = req.body.description;
-        var location = req.body.location;
-        var value = req.body.value;
-        var userListing = req.user.rows[0].user_name;
+        let itemID = req.params.id;
+        let itemname = req.body.itemname;
+        let category = req.body.category;
+        let description = req.body.description;
+        let location = req.body.location;
+        let value = req.body.value;
+        let userListing = req.user.rows[0].user_name;
     
         if(req.isAuthenticated()){
             item.setItem(itemID, itemname, category, description, location, value, userListing).then((result) => {
@@ -177,8 +177,8 @@ module.exports.set = function(app) {
      */
     app.get('/delete/:id', (req, res) => {
         if(req.isAuthenticated()){
-            var user = req.user.rows[0].user_name;
-            var itemID = req.params.id;
+            let user = req.user.rows[0].user_name;
+            let itemID = req.params.id;
             item.isItemOwner(user, itemID).then((youOwnItem) => {
                 if(youOwnItem){
                     item.deleteItem(itemID).then(() => {
@@ -208,12 +208,12 @@ module.exports.set = function(app) {
                     userLoggedInUsername = req.user.rows[0].user_name;
                     userLoggedIn = req.user.rows[0];
                     item.getUsersItems(userLoggedInUsername).then((result3) => {
-                        var userLoggedInItemsImages = [];
-                        var userLoggedInItems = result3.rows;
-                        var imagePromises = [];
+                        let userLoggedInItemsImages = [];
+                        let userLoggedInItems = result3.rows;
+                        let imagePromises = [];
                         userLoggedInItems.forEach((item) => {
-                            var itemID = item.item_id;
-                            var p = new Promise((resolve, reject) => {
+                            let itemID = item.item_id;
+                            let p = new Promise((resolve, reject) => {
                                 item.getImg(itemID, (err4, result4) => {
                                     if(err4){
                                         console.log(err4);
@@ -259,12 +259,12 @@ module.exports.set = function(app) {
      * Endpoint that creates a trade offer for the item with the given ID.
      */
     app.post('/makeoffer/:id', (req, res) => {
-        var moneyOffered = req.body.moneyOffered;
-        var itemsOffered = req.body.itemsOffered;
-        var offerMessage = req.body.offerMessage;
-        var itemTradingFor = req.params.id;
-        var userPostedOffer = req.user.rows[0].user_id;
-        var dateOfOffer = getTimestamp();
+        let moneyOffered = req.body.moneyOffered;
+        let itemsOffered = req.body.itemsOffered;
+        let offerMessage = req.body.offerMessage;
+        let itemTradingFor = req.params.id;
+        let userPostedOffer = req.user.rows[0].user_id;
+        let dateOfOffer = getTimestamp();
         //create tradeoffer returning tradeofferID
         if(itemsOffered == undefined){
             tradeoffer.setCashOnlyTradeOffer(itemTradingFor, moneyOffered, offerMessage, dateOfOffer, userPostedOffer).then((result) => {
@@ -276,9 +276,9 @@ module.exports.set = function(app) {
             });
         }else{
             tradeoffer.setTradeOffer(itemTradingFor, moneyOffered, offerMessage, dateOfOffer, userPostedOffer).then((result) => {
-                var tradeofferID = result.rows[0].tradeoffer_id;
+                let tradeofferID = result.rows[0].tradeoffer_id;
                 //add each users items to item in trade
-                var addingOffer = new Promise((resolve, reject) => {
+                let addingOffer = new Promise((resolve, reject) => {
                     //Single item
                     if(typeof itemsOffered == "string" && itemsOffered != undefined){
                         tradeoffer.addTradeItem(itemsOffered, tradeofferID).then((result) => {
@@ -318,15 +318,15 @@ module.exports.set = function(app) {
      */
     app.get("/viewoffers/:id", (req, res) => {
         if(req.isAuthenticated()){
-            var user = req.user.rows[0].user_name;
-            var itemID = req.params.id;
+            let user = req.user.rows[0].user_name;
+            let itemID = req.params.id;
             item.isItemOwner(user, itemID).then((youOwnItem) => {
                 if(youOwnItem){
                     tradeoffer.getTradeOffersForItem(itemID).then((tradeOffers) => {
-                       var tradeOffersFormatted = [];
-                       var allTradeOfferIDsForDBQuery = '';
+                       let tradeOffersFormatted = [];
+                       let allTradeOfferIDsForDBQuery = '';
                        tradeOffers.forEach((offer) => {
-                            var t = {
+                            let t = {
                                 "id": offer.tradeoffer_id,
                                 "message": offer.offer_message,
                                 "acceptedOffer": offer.accepted_offer,
@@ -347,7 +347,7 @@ module.exports.set = function(app) {
                        
                        
                        tradeoffer.getAllItemsFromTradeOffers(allTradeOfferIDsForDBQuery).then((allItems) => {
-                            var args = {
+                            let args = {
                                 'tradeOffers': tradeOffersFormatted,
                                 'items': allItems,
                                 'message': req.flash('message')
@@ -370,12 +370,12 @@ module.exports.set = function(app) {
      */
     app.get("/declineoffer/:id", (req, res) => {
         if(req.isAuthenticated()){
-            var user = req.user.rows[0].user_name;
-            var offerID = req.params.id;
+            let user = req.user.rows[0].user_name;
+            let offerID = req.params.id;
             tradeoffer.isUsersItemInTradeOffer(user, offerID).then((yourOffer) => {
                 if(yourOffer){
                     tradeoffer.setOfferStatus('false', offerID).then((rejectedOffer) => {
-                        var itemTradingFor = rejectedOffer[0].item_trading_for;
+                        let itemTradingFor = rejectedOffer[0].item_trading_for;
                         req.flash("message", "Offer has been declined.");
                         return res.redirect("/viewoffers/"+itemTradingFor);
                     });
@@ -394,24 +394,24 @@ module.exports.set = function(app) {
      */
     app.get("/acceptoffer/:id", (req, res) => {
         if(req.isAuthenticated()){
-            var user = req.user.rows[0].user_name;
-            var offerID = req.params.id;
+            let user = req.user.rows[0].user_name;
+            let offerID = req.params.id;
             tradeoffer.isUsersItemInTradeOffer(user, offerID).then((yourOffer) => {
                 if(yourOffer){
                     tradeoffer.getItemTradingFor(offerID).then((tradeoffer) => {
-                        var itemTradingFor = tradeoffer[0].item_trading_for;
+                        let itemTradingFor = tradeoffer[0].item_trading_for;
                         tradeoffer.getPreviousAcceptedOffer(itemTradingFor).then((previousTrade) => {
                             if(previousTrade.length == 0){
                                 tradeoffer.setOfferStatus('true', offerID).then((acceptedOffer) => {
-                                    var itemTradingFor = acceptedOffer[0].item_trading_for;
+                                    let itemTradingFor = acceptedOffer[0].item_trading_for;
                                     req.flash("message", "Offer has been accepted.");
                                     return res.redirect("/viewoffers/"+itemTradingFor);
                                 });
                             }else{
-                                var previousTradeID = previousTrade[0].tradeoffer_id;
+                                let previousTradeID = previousTrade[0].tradeoffer_id;
                                 tradeoffer.setOfferStatus('false', previousTradeID).then((declinedOffer) => {
                                     tradeoffer.setOfferStatus('true', offerID).then((acceptedOffer) => {
-                                        var itemTradingFor = acceptedOffer[0].item_trading_for;
+                                        let itemTradingFor = acceptedOffer[0].item_trading_for;
                                         req.flash("message", "Offer has been accepted.");
                                         return res.redirect("/viewoffers/"+itemTradingFor);
                                     });
@@ -435,19 +435,19 @@ module.exports.set = function(app) {
      */
     app.get("/youroffers", (req, res) => {
         if(req.isAuthenticated()){
-            var user = req.user.rows[0].user_id;
-            var offerTypes = [];
-            var gettingTradeOffers = tradeoffer.getUsersTradeOffer(user);
+            let user = req.user.rows[0].user_id;
+            let offerTypes = [];
+            let gettingTradeOffers = tradeoffer.getUsersTradeOffer(user);
             gettingTradeOffers.then((tradeOffers)=>{
                 tradeOffers.forEach(offer => {
                     //Check if cash only get cash offered
-                    var getOfferType = tradeoffer.isCashOfferOnly(offer.tradeoffer_id);
+                    let getOfferType = tradeoffer.isCashOfferOnly(offer.tradeoffer_id);
                     offerTypes.push(getOfferType);
                 });
                 Promise.all(offerTypes).then((result) => {
-                    var complete = [];
+                    let complete = [];
                     result.forEach(offer => {
-                        var p = new Promise((resolve, reject)=>{
+                        let p = new Promise((resolve, reject)=>{
                             if(offer.length == 0){
                                 //is a cash only deal
                                 resolve('cashOnly');
@@ -460,12 +460,12 @@ module.exports.set = function(app) {
                         complete.push(p);
                     });
                     Promise.all(complete).then((result)=>{
-                        var yourOffersFormatted = [];
-                        for(var i = 0; i < result.length; i++){
+                        let yourOffersFormatted = [];
+                        for(let i = 0; i < result.length; i++){
                             if(result[i] == 'cashOnly'){
                                 yourOffersFormatted.push([result[i], tradeOffers[i]]);
                             }else{
-                                var arr = [];
+                                let arr = [];
                                 arr.push('cashAndItems');
                                 arr.push(tradeOffers[i]);
                                 result[i].rows.forEach(row => {
@@ -491,8 +491,8 @@ module.exports.set = function(app) {
      */
     app.get("/deleteoffer/:id", (req, res) => {
         if(req.isAuthenticated()){
-            var user = req.user.rows[0].user_name;
-            var offerID = req.params.id;
+            let user = req.user.rows[0].user_name;
+            let offerID = req.params.id;
             account.getUserID(user).then((id) => {
                 tradeoffer.isUsersOffer(id[0].user_id, offerID).then((yourOffer) => {
                     if(yourOffer){
@@ -519,15 +519,15 @@ module.exports.set = function(app) {
      * @returns a String form of a timestamp.
      */
     function getTimestamp(){
-        var date =  new Date();
-        var year = date.getFullYear();
-        var month = date.getMonth();
-        var day = date.getDate();
-        var hours = date.getHours();
-        var minutes = date.getMinutes();
-        var seconds = date.getSeconds();
-        var milliseconds = date.getMilliseconds();
-        var timestamp = year+"-"+month+"-"+day+" "+hours+":"+minutes+":"+seconds+"."+milliseconds;
+        let date =  new Date();
+        let year = date.getFullYear();
+        let month = date.getMonth();
+        let day = date.getDate();
+        let hours = date.getHours();
+        let minutes = date.getMinutes();
+        let seconds = date.getSeconds();
+        let milliseconds = date.getMilliseconds();
+        let timestamp = year+"-"+month+"-"+day+" "+hours+":"+minutes+":"+seconds+"."+milliseconds;
         return timestamp;
     }
 }

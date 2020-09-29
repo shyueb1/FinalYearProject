@@ -9,7 +9,7 @@ class Item{
      * @returns a promise that resolves to rows containing items and their information.
      */
     getItemWithSimilarName(itemName){
-        var promise = new Promise((resolve, reject) => {
+        let promise = new Promise((resolve, reject) => {
             this.DB.query(`SELECT DISTINCT ON (item_id) * FROM (SELECT * FROM item where LOWER(item_name) ~ ($1)) as x inner join item_images on item_id=item;`, [itemName.toLowerCase()], (err, result) => {
                 if(err){
                     reject(err);
@@ -28,7 +28,7 @@ class Item{
      * @returns a promise that resolves to true if it is the user's item and false otherwise.
      */
     isItemOwner(user, itemID){
-        var promise = new Promise((resolve, reject) => {
+        let promise = new Promise((resolve, reject) => {
             this.DB.query('SELECT * FROM item WHERE user_posted = ($1) AND item_id = ($2);', [user, itemID], (err, result) => {
                 if(err){
                     reject(err);
@@ -57,21 +57,21 @@ class Item{
      * @return a callback with an error or the result of the rows being stored.
      */
     storeItem(user, itemname, location, value, description, category, images, callback){
-        var date =  new Date();
-        var year = date.getFullYear();
-        var month = date.getMonth()+1;
-        var day = date.getDate();
-        var hours = date.getHours();
-        var minutes = date.getMinutes();
-        var seconds = date.getSeconds();
-        var milliseconds = date.getMilliseconds();
-        var timestamp = year+"-"+month+"-"+day+" "+hours+":"+minutes+":"+seconds+"."+milliseconds;
+        let date =  new Date();
+        let year = date.getFullYear();
+        let month = date.getMonth()+1;
+        let day = date.getDate();
+        let hours = date.getHours();
+        let minutes = date.getMinutes();
+        let seconds = date.getSeconds();
+        let milliseconds = date.getMilliseconds();
+        let timestamp = year+"-"+month+"-"+day+" "+hours+":"+minutes+":"+seconds+"."+milliseconds;
         console.log(timestamp);
         this.DB.query("INSERT INTO item(user_posted, item_name, item_location, est_cost, description, category, date_posted, sold_status, main_img) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9) RETURNING item_id;",[user, itemname, location, value, description, category, timestamp, 'false', images[0].key], (err, result) => {
             if(err){
                return callback(err);
             }else{
-                var itemID = result.rows[0].item_id;
+                let itemID = result.rows[0].item_id;
                 this.storeImg(images, itemID);
                 callback(err, result);
                 return;
@@ -101,7 +101,7 @@ class Item{
      * @returns a promise that resolves to an error or a row containing the item information.
      */
     getItemByID(itemID){
-        var promise = new Promise((resolve, reject) => {
+        let promise = new Promise((resolve, reject) => {
             this.DB.query("SELECT * FROM item where item_id=($1);", [itemID], (err, result)=>{ 
                 if(err){
                     reject(err);
@@ -119,7 +119,7 @@ class Item{
      * @returns a promise that resolves to rows containing the 8 latest items and their information.
      */
     getLatestItemPosts(username){
-        var promise = new Promise((resolve, reject) => {
+        let promise = new Promise((resolve, reject) => {
             this.DB.query('SELECT * FROM item WHERE user_posted=($1) ORDER BY date_posted DESC LIMIT 8;',[username], (err, result)=>{
                 if(err){
                     reject(err);
@@ -143,7 +143,7 @@ class Item{
      * @returns a promise that resolves to the result of the database insertion. 
      */
     setItem(itemID, itemname, category, description, location, value, userListing){
-        var promise = new Promise((resolve, reject) => {
+        let promise = new Promise((resolve, reject) => {
             this.DB.query(`UPDATE item
                       SET 
                         item_name = ($2),
@@ -181,7 +181,7 @@ class Item{
      * @returns a promise that resolves to a row containing the user's items.
      */
     getUsersItems(username){
-        var promise = new Promise((resolve, reject) => {
+        let promise = new Promise((resolve, reject) => {
             this.DB.query("SELECT * FROM item WHERE user_posted=($1);", [username], (err, result) => {
                 if(err){
                     reject(err);
@@ -200,7 +200,7 @@ class Item{
      * @returns a promise that resolves to a row containing an items information.
      */
     getItem(itemID){
-        var promise = new Promise((resolve, reject) => {
+        let promise = new Promise((resolve, reject) => {
             this.DB.query('SELECT * FROM item WHERE item_id = ($1);', [itemID], (err, result) => {
                 if(err){
                     reject(err);
@@ -218,7 +218,7 @@ class Item{
      * @returns a promise that resolves to an error or nothing if item was deleted successfully.
      */
     deleteItem(itemID){
-        var promise = new Promise((resolve, reject) => {
+        let promise = new Promise((resolve, reject) => {
             this.DB.query('DELETE FROM item WHERE item_id = ($1);', [itemID], (err, result) => {
                 if(err){
                     reject(err);
@@ -235,7 +235,7 @@ class Item{
      * @returns a promise that resolves to a row containing the items information and images.
      */
     getItemsWithImages(){
-        var promise = new Promise((resolve, reject) => {
+        let promise = new Promise((resolve, reject) => {
             this.DB.query('SELECT DISTINCT ON (item_id) * FROM (select * from item order by date_posted desc) AS items INNER JOIN item_images ON items.item_id = item_images.item WHERE items.expired = false;', (err, result)=>{
                 if(err){
                     reject(err);
@@ -251,7 +251,7 @@ class Item{
      * Sets the expired column to true if an item has past its sell-by date.
      */
     setItemExpired(itemId){
-        var promise = new Promise((resolve, reject) => {
+        let promise = new Promise((resolve, reject) => {
             this.DB.query('UPDATE item SET expired = true WHERE item_id=($1);', [itemId], (err, result) => {
                 if(err){
                     reject(err);
